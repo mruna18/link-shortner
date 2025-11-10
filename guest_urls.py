@@ -11,9 +11,9 @@ def update_database_for_guests():
         cursor.execute('ALTER TABLE shortened_urls ADD COLUMN guest_token TEXT')
         cursor.execute('ALTER TABLE shortened_urls ADD COLUMN expires_at TIMESTAMP')
         cursor.execute('ALTER TABLE shortened_urls ADD COLUMN is_guest BOOLEAN DEFAULT 0')
-        print("✅ Added guest support columns")
+        print("Added guest support columns")
     except sqlite3.OperationalError:
-        print("✅ Guest columns already exist")
+        print("Guest columns already exist")
     
     conn.commit()
     conn.close()

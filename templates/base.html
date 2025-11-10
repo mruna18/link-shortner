@@ -622,7 +622,7 @@
                     <span class="link-text">Analytics</span>
                 </a></li>
                 {% endif %}
-                <li><a href="{{ url_for('show_guest_urls') }}" class="{% if request.endpoint == 'show_guest_urls' %}active{% endif %}">
+                <li><a href="{{ url_for('guest_urls') }}" class="{% if request.endpoint == 'guest_urls' %}active{% endif %}">
                     <i class="fas fa-history"></i>
                     <span class="link-text">Recent URLs</span>
                 </a></li>

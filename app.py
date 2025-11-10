@@ -238,7 +238,7 @@ def shorten_guest():
         conn.close()
 
 @app.route('/guest-urls')
-def show_guest_urls():
+def guest_urls():
     """Show guest user their shortened URLs"""
     guest_tokens = session.get('guest_tokens', [])
     

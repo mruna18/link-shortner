@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block page_title %}Data Visualization{% endblock %}
+{% block page_subtitle %}Beautiful charts and insights for your URLs{% endblock %}
+
+{% block content %}
+<div class="grid grid-2 mb-30">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Overview</h3>
+            <i class="fas fa-chart-pie" style="color: var(--accent-color);"></i>
+        </div>
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-color); margin-bottom: 10px;">
+                {{ total_urls }}
+            </div>
+            <div style="color: var(--text-secondary);">Total URLs</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Engagement</h3>
+            <i class="fas fa-mouse" style="color: #10b981;"></i>
+        </div>
+        <div style="text-align: center; padding: 20px;">
+            <div style="font-size: 3rem; font-weight: 700; color: #10b981; margin-bottom: 10px;">
+                {{ total_clicks }}
+            </div>
+            <div style="color: var(--text-secondary);">Total Clicks</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Your URLs Data</h2>
+        <a href="{{ url_for('stats_page') }}" class="btn btn-secondary">
+            <i class="fas fa-list"></i>
+            Detailed Stats
+        </a>
+    </div>
+    
+    {% if urls %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Short Code</th>
+                    <th>Custom Name</th>
+                    <th>Clicks</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                    <th>Click Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in urls %}
+                <tr>
+                    <td><strong>{{ url[1] }}</strong></td>
+                    <td>
+                        {% if url[2] %}
+                        <span style="color: var(--accent-color);">{{ url[2] }}</span>
+                        {% else %}
+                        <span style="color: var(--text-secondary);">—</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span style="background: #10b981; color: white; padding: 6px 14px; border-radius: 20px; font-weight: 600;">
+                            {{ url[3] }}
+                        </span>
+                    </td>
+                    <td style="color: var(--text-secondary);">
+                        {{ url[4][:10] }}
+                    </td>
+                    <td>
+                        {% if url[5] %}
+                        <span style="color: #10b981;">Public</span>
+                        {% else %}
+                        <span style="color: var(--text-secondary);">Private</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% set days_since = (now().date() - url[4].date()).days + 1 %}
+                        {% set daily_rate = (url[3] / days_since)|round(1) if days_since > 0 else url[3] %}
+                        <span style="color:#10b981">
+                            {{ daily_rate }}/day
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <i class="fas fa-chart-bar" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No Data to Visualize</h3>
+        <p>Create some URLs to see beautiful charts and insights!</p>
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-top: 20px;">
+            <i class="fas fa-plus"></i>
+            Start Creating URLs
+        </a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Click Distribution Visualization -->
+{% if urls and urls|length > 1 %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Click Distribution</h2>
+        <i class="fas fa-chart-bar" style="color: var(--accent-color);"></i>
+    </div>
+    
+    <div style="padding: 20px;">
+        {% for url in urls %}
+        {% if url[3] > 0 %}
+        <div style="margin-bottom: 15px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                <span style="font-size: 0.9rem;">{{ url[1] }}</span>
+                <span style="font-size: 0.9rem; font-weight: 600;">{{ url[3] }} clicks</span>
+            </div>
+            <div style="background: var(--border-color); border-radius: 10px; height: 8px;">
+                <div style="background: var(--accent-gradient); 
+                            height: 100%; border-radius: 10px; ">
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,656 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="register-container">
+    <!-- Left Side - Registration Form -->
+    <div class="register-form-section">
+        <div class="form-container">
+            <div class="form-header">
+                <div class="header-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1>Create Account</h1>
+                <p>Join our community and start shortening URLs</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('register') }}" class="register-form">
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="text" name="username" 
+                           class="form-input"
+                           placeholder="Choose your username"
+                           required
+                           autocomplete="username">
+                    <div class="input-underline"></div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <input type="email" name="email" 
+                           class="form-input"
+                           placeholder="Your email address"
+                           required
+                           autocomplete="email">
+                    <div class="input-underline"></div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <input type="password" name="password" 
+                           class="form-input"
+                           placeholder="Create a password"
+                           required
+                           minlength="6"
+                           autocomplete="new-password">
+                    <div class="input-underline"></div>
+                    <div class="password-strength">
+                        <div class="strength-bar"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <input type="password" name="confirm_password" 
+                           class="form-input"
+                           placeholder="Confirm your password"
+                           required
+                           autocomplete="new-password">
+                    <div class="input-underline"></div>
+                </div>
+
+                <div class="terms-group">
+                    <label class="checkbox-container">
+                        <input type="checkbox" required>
+                        <span class="checkmark">
+                            <i class="fas fa-check"></i>
+                        </span>
+                        <span class="checkbox-text">
+                            I agree to the <a href="#" class="text-link">Terms of Service</a> and <a href="#" class="text-link">Privacy Policy</a>
+                        </span>
+                    </label>
+                </div>
+
+                <button type="submit" class="register-btn">
+                    <span class="btn-text">Create Account</span>
+                    <div class="btn-loader">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </button>
+            </form>
+
+            <div class="form-footer">
+                <p>Already have an account? 
+                    <a href="{{ url_for('login') }}" class="auth-link">
+                        Sign in here <i class="fas fa-arrow-right"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Side - Features Showcase -->
+    <div class="features-showcase">
+        <div class="showcase-content">
+            <div class="showcase-header">
+                <h2>Account Benefits</h2>
+                <p>Get more control over your shortened URLs</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>Permanent URLs</h3>
+                    <p>Your shortened links never expire, unlike 30-day guest links</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon analytics">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Click Analytics</h3>
+                    <p>Track how many times your links are clicked</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Personal Dashboard</h3>
+                    <p>Manage all your links in one convenient place</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon security">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Better Control</h3>
+                    <p>Organize and manage your URLs with ease</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon bulk">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>Link Management</h3>
+                    <p>View and manage all your shortened URLs</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon api">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3>All Features Free</h3>
+                    <p>No limitations, no payments required</p>
+                </div>
+            </div>
+
+            <!-- Simple call to action instead of fake stats -->
+            <div class="simple-cta">
+                <h3>Ready to get started?</h3>
+                <p>Create your account in less than a minute</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.register-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    min-height: calc(100vh - 200px);
+    background: linear-gradient(135deg, var(--main-bg) 0%, #0a0a0a 100%);
+}
+
+/* Form Section */
+.register-form-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: var(--main-bg);
+}
+
+.form-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--accent-gradient);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.form-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Form Styles */
+.register-form {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.form-input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    padding-left: 55px;
+}
+
+.form-input:focus + .input-underline {
+    transform: scaleX(1);
+}
+
+.form-input:focus ~ .input-icon {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+.input-underline {
+    position: absolute;
+    bottom: -2px;
+    left: 50px;
+    right: 0;
+    height: 2px;
+    background: var(--accent-gradient);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Password Strength */
+.password-strength {
+    margin-top: 8px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--accent-gradient);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+/* Terms Checkbox */
+.terms-group {
+    margin: 30px 0;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.checkbox-container input {
+    display: none;
+}
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    margin-top: 2px;
+}
+
+.checkmark i {
+    color: white;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.checkbox-container input:checked + .checkmark {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+}
+
+.checkbox-container input:checked + .checkmark i {
+    opacity: 1;
+}
+
+.text-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+
+/* Register Button */
+.register-btn {
+    width: 100%;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(102, 126, 234, 0.4);
+}
+
+.register-btn:active {
+    transform: translateY(0);
+}
+
+.btn-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.register-btn.loading .btn-text {
+    opacity: 0;
+}
+
+.register-btn.loading .btn-loader {
+    opacity: 1;
+}
+
+/* Form Footer */
+.form-footer {
+    text-align: center;
+    padding-top: 25px;
+    border-top: 1px solid var(--border-color);
+}
+
+.form-footer p {
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+.auth-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #764ba2;
+    text-decoration: none;
+}
+
+/* Features Showcase */
+.features-showcase {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d1a4a 100%);
+    padding: 60px 40px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.features-showcase::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.showcase-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.showcase-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.showcase-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #ffffff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.showcase-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(102, 126, 234, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: white;
+}
+
+.feature-icon.analytics { background: linear-gradient(135deg, #10b981, #059669); }
+.feature-icon.dashboard { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.feature-icon.security { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.feature-icon.bulk { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+.feature-icon.api { background: linear-gradient(135deg, #f59e0b, #d97706); }
+
+.feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Simple CTA */
+.simple-cta {
+    text-align: center;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.simple-cta h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.simple-cta p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .register-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .features-showcase {
+        display: none;
+    }
+    
+    .register-form-section {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .header-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 1.7rem;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.register-form');
+    const password = document.querySelector('input[name="password"]');
+    const confirmPassword = document.querySelector('input[name="confirm_password"]');
+    const strengthBar = document.querySelector('.strength-bar');
+    const registerBtn = document.querySelector('.register-btn');
+    
+    // Password strength indicator
+    password.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        
+        if (password.length >= 6) strength += 25;
+        if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 25;
+        if (password.match(/\d/)) strength += 25;
+        if (password.match(/[^a-zA-Z\d]/)) strength += 25;
+        
+        strengthBar.style.width = strength + '%';
+        
+        // Color coding
+        if (strength < 50) {
+            strengthBar.style.background = '#ef4444';
+        } else if (strength < 75) {
+            strengthBar.style.background = '#f59e0b';
+        } else {
+            strengthBar.style.background = 'var(--accent-gradient)';
+        }
+    });
+    
+    // Password confirmation validation
+    function validatePasswords() {
+        if (password.value !== confirmPassword.value && confirmPassword.value.length > 0) {
+            confirmPassword.style.borderColor = '#ef4444';
+        } else {
+            confirmPassword.style.borderColor = password.value.length >= 6 ? '#10b981' : 'transparent';
+        }
+    }
+    
+    password.addEventListener('input', validatePasswords);
+    confirmPassword.addEventListener('input', validatePasswords);
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        const btn = this.querySelector('.register-btn');
+        btn.classList.add('loading');
+        btn.disabled = true;
+    });
+    
+    // Input animations
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('focused');
+        });
+        
+        input.addEventListener('blur', function() {
+            if (this.value === '') {
+                this.parentElement.classList.remove('focused');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

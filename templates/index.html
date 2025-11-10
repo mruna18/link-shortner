@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Main Shortener Card -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Quick Shortener</h2>
+        <div style="color: var(--text-secondary); font-size: 0.9rem;">
+            <i class="fas fa-bolt"></i> Instant Results
+        </div>
+    </div>
+    
+    <form method="POST" action="{{ url_for('shorten_guest') }}">
+        <div class="form-group">
+            <label class="form-label">Enter your long URL</label>
+            <input type="url" name="long_url" 
+                   class="url-input" 
+                   placeholder="https://www.example.com/very-long-url-that-needs-shortening"
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">
+                Custom name <span style="color: var(--text-secondary); font-weight: normal;">(optional)</span>
+            </label>
+            <input type="text" name="custom_name" 
+                   class="url-input" 
+                   placeholder="my-custom-link">
+        </div>
+        
+        <button type="submit" class="btn btn-large">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            Shorten URL
+        </button>
+    </form>
+</div>
+
+<!-- Features Grid -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Why Choose Our Shortener?</h2>
+    </div>
+    
+    <div class="grid grid-3">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <div class="feature-title">Lightning Fast</div>
+            <div class="feature-desc">
+                Generate short URLs instantly with our optimized platform. No delays, no waiting.
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="feature-title">Privacy First</div>
+            <div class="feature-desc">
+                Your links are private by default. We never share or display your URLs publicly.
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="feature-title">Smart Analytics</div>
+            <div class="feature-desc">
+                Track clicks and engagement with beautiful, intuitive analytics dashboards.
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-infinity"></i>
+            </div>
+            <div class="feature-title">No Limits</div>
+            <div class="feature-desc">
+                Create unlimited short URLs without restrictions. Perfect for power users.
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="feature-title">Mobile Friendly</div>
+            <div class="feature-desc">
+                Works perfectly on all devices. Shorten and share from anywhere, anytime.
+            </div>
+        </div>
+        
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <div class="feature-title">Always Free</div>
+            <div class="feature-desc">
+                Premium features available for free. No hidden costs, no credit card required.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="grid grid-2">
+    <!-- Guest Section -->
+    <div class="card">
+        <div class="card-header">
+            <i class="fas fa-user-clock" style="color: var(--text-secondary);"></i>
+            <h2 class="card-title">&nbsp;Quick Start</h2>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
+            No account needed. Start shortening URLs immediately. Your links will be active for 30 days.
+        </p>
+        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <i class="fas fa-check" style="color: var(--success-color);"></i>
+                <span>No registration required</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <i class="fas fa-check" style="color: var(--success-color);"></i>
+                <span>30-day link validity</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-check" style="color: var(--success-color);"></i>
+                <span>Basic analytics included</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Premium Section -->
+    <div class="card">
+        <div class="card-header">
+            <h3><i class="fas fa-star"></i> Account Benefits</h3>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">
+            Create a free account to unlock powerful features and permanent URLs.
+        </p>
+        <div style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <i class="fas fa-star" style="color: #f59e0b;"></i>
+                <span>Permanent URLs (never expire)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <i class="fas fa-star" style="color: #f59e0b;"></i>
+                <span>Advanced analytics dashboard</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-star" style="color: #f59e0b;"></i>
+                <span>Manage all links in one place</span>
+            </div>
+        </div>
+        
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('register') }}" class="btn btn-success">
+            <i class="fas fa-user-plus"></i>
+            Create Free Account
+        </a>
+        {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn">
+            <i class="fas fa-tachometer-alt"></i>
+            Go to Dashboard
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Guest URLs Section -->
+{% if session.get('guest_tokens') %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Your Recent URLs</h2>
+        <a href="{{ url_for('show_guest_urls') }}" class="btn btn-secondary">
+            <i class="fas fa-eye"></i>
+            View All
+        </a>
+    </div>
+    <p style="color: var(--text-secondary);">
+        Manage URLs created without an account. These links will expire after 30 days.
+    </p>
+</div>
+{% endif %}
+
+<style>
+/* Additional custom styles for the index page */
+.feature-card {
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-2px);
+}
+
+.btn-large {
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-header {
+        padding: 20px;
+    }
+    
+    .header-title h1 {
+        font-size: 1.5rem;
+    }
+}
+</style>
+{% endblock %}

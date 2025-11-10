@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Manage your URLs and view statistics{% endblock %}
+
+{% block content %}
+<!-- Quick Stats -->
+<div class="grid grid-3 mb-30">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Total URLs</h3>
+            <i class="fas fa-link" style="color: var(--accent-color);"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent-color); text-align: center;">
+            {{ total_urls }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Total Clicks</h3>
+            <i class="fas fa-chart-line" style="color: #10b981;"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: #10b981; text-align: center;">
+            {{ total_clicks }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Avg. Clicks</h3>
+            <i class="fas fa-tachometer-alt" style="color: #f59e0b;"></i>
+        </div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: #f59e0b; text-align: center;">
+            {{ avg_clicks }}
+        </div>
+    </div>
+</div>
+
+<!-- URL Shortening Form -->
+<div class="card mb-30">
+    <div class="card-header">
+        <h2 class="card-title">Shorten New URL</h2>
+        <i class="fas fa-plus" style="color: var(--accent-color);"></i>
+    </div>
+    
+    <form method="POST" action="{{ url_for('shorten_url') }}">
+        <div class="form-group">
+            <label class="form-label">Long URL</label>
+            <input type="url" name="long_url" 
+                   class="url-input" 
+                   placeholder="https://www.example.com/very-long-url..."
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">
+                Custom Name <span style="color: var(--text-secondary); font-weight: normal;">(optional)</span>
+            </label>
+            <input type="text" name="custom_name" 
+                   class="url-input" 
+                   placeholder="my-custom-link">
+        </div>
+        
+        <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                <input type="checkbox" name="is_public" checked style="width: auto;">
+                <span>Make this URL public</span>
+            </label>
+            <small style="color: var(--text-secondary);">Public URLs can be accessed by anyone</small>
+        </div>
+        
+        <button type="submit" class="btn btn-large">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            Shorten URL
+        </button>
+    </form>
+</div>
+
+<!-- Recent URLs -->
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Your Recent URLs</h2>
+        <a href="{{ url_for('my_links') }}" class="btn btn-secondary">
+            <i class="fas fa-list"></i>
+            View All
+        </a>
+    </div>
+    
+    {% if urls %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Short Code</th>
+                    <th>Original URL</th>
+                    <th>Clicks</th>
+                    <th>Created</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in urls[:5] %}
+                <tr>
+                    <td>
+                        <strong>{{ url[0] }}</strong>
+                        {% if url[2] %}
+                        <br><small style="color: var(--text-secondary);">Custom: {{ url[2] }}</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span style="font-size: 0.9rem; color: var(--text-secondary);">
+                            {{ url[1][:50] }}...
+                        </span>
+                    </td>
+                    <td>
+                        <span style="background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">
+                            {{ url[4] }}
+                        </span>
+                    </td>
+                    <td style="color: var(--text-secondary); font-size: 0.9rem;">
+                        {{ url[3][:10] }}
+                    </td>
+                    <td>
+                        {% if url[5] %}
+                        <span style="color: #10b981; font-size: 0.9rem;">Public</span>
+                        {% else %}
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;">Private</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fas fa-link" style="font-size: 3rem; margin-bottom: 15px; opacity: 0.5;"></i>
+        <h3>No URLs Yet</h3>
+        <p>Start by shortening your first URL above!</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+/* Additional dashboard styles */
+.card {
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background: var(--card-bg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 768px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    th, td {
+        padding: 12px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .table-container {
+        font-size: 0.8rem;
+    }
+}
+</style>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block page_title %}Statistics{% endblock %}
+{% block page_subtitle %}View analytics for your shortened URLs{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">URL Statistics</h2>
+        <a href="{{ url_for('visualize_data') }}" class="btn">
+            <i class="fas fa-chart-pie"></i>
+            Visualize Data
+        </a>
+    </div>
+    
+    {% if urls %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Short Code</th>
+                    <th>Click Count</th>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <th>Performance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in urls %}
+                <tr>
+                    <td>
+                        <strong>{{ url[0] }}</strong>
+                        {% if url[2] %}
+                        <br><small style="color: var(--text-secondary);">Custom: {{ url[2] }}</small>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span style="background: #10b981; color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+                            {{ url[4] }} clicks
+                        </span>
+                    </td>
+                    <td style="color: var(--text-secondary);">
+                        {{ url[3][:16] }}
+                    </td>
+                    <td>
+                        {% if url[5] %}
+                        <span style="color: #10b981;">
+                            <i class="fas fa-globe"></i> Public
+                        </span>
+                        {% else %}
+                        <span style="color: var(--text-secondary);">
+                            <i class="fas fa-lock"></i> Private
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if url[4] == 0 %}
+                        <span style="color: var(--text-secondary);">No clicks yet</span>
+                        {% elif url[4] < 10 %}
+                        <span style="color: #f59e0b;">
+                            <i class="fas fa-chart-line"></i> Low
+                        </span>
+                        {% elif url[4] < 50 %}
+                        <span style="color: #3b82f6;">
+                            <i class="fas fa-chart-line"></i> Medium
+                        </span>
+                        {% else %}
+                        <span style="color: #10b981;">
+                            <i class="fas fa-chart-line"></i> High
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Summary Stats -->
+    <div class="grid grid-3" style="margin-top: 30px;">
+        <div class="card">
+            <h4>Total URLs</h4>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--accent-color);">
+                {{ urls|length }}
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>Total Clicks</h4>
+            <div style="font-size: 2rem; font-weight: 700; color: #10b981;">
+                {{ urls|sum(attribute=4) }}
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>Avg. Clicks/URL</h4>
+            <div style="font-size: 2rem; font-weight: 700; color: #f59e0b;">
+                {{ (urls|sum(attribute=4) / urls|length)|round(1) if urls|length > 0 else 0 }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+        <i class="fas fa-chart-bar" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
+        <h3>No Data Yet</h3>
+        <p>Start shortening URLs to see statistics here!</p>
+        <a href="{{ url_for('dashboard') }}" class="btn" style="margin-top: 20px;">
+            <i class="fas fa-plus"></i>
+            Create Your First URL
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <div style="background: var(--success-color); color: white; padding: 20px; border-radius: 10px 10px 0 0; margin: -30px -30px 30px -30px;">
+            <h2 style="margin: 0; color: white;">🎉 URL Shortened Successfully!</h2>
+        </div>
+        
+        <div style="text-align: left; margin-bottom: 25px;">
+            <div style="margin-bottom: 20px;">
+                <label><strong>🔗 Your Short URL:</strong></label>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border: 2px solid #e5e7eb;">
+                    <code style="font-size: 1.1rem; color: var(--primary-color);">{{ short_url }}</code>
+                    <button onclick="copyToClipboard('{{ short_url }}')" class="btn-copy" style="float: right;">
+                        📋 Copy
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label><strong>📄 Original URL:</strong></label>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 8px;">
+                    <code style="color: var(--text-light); word-break: break-all;">{{ long_url }}</code>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <h4 style="margin: 0 0 10px 0; color: #856404;">ℹ️ Guest URL Information</h4>
+            <ul style="text-align: left; margin: 0; color: #856404;">
+                <li>This URL will work for <strong>30 days</strong></li>
+                <li>No registration required</li>
+                <li>View all your guest URLs in "Your Guest URLs" section</li>
+            </ul>
+        </div>
+
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <a href="{{ url_for('index') }}" class="btn btn-success">
+                🚀 Shorten Another URL
+            </a>
+            <a href="{{ url_for('guest_urls') }}" class="btn btn-secondary">
+                📋 View My Guest URLs
+            </a>
+            {% if not current_user.is_authenticated %}
+            <a href="{{ url_for('register') }}" class="btn">
+                ⭐ Create Account
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✅ Copied!';
+        btn.style.background = '#007bff';
+        
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+        }, 2000);
+    });
+}
+</script>
+{% endblock %}

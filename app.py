@@ -79,7 +79,7 @@ def init_database():
     
     conn.commit()
     conn.close()
-    print("✅ Database initialized successfully!")
+    print("Database initialized successfully!")
 
 def hash_password(password):
     """Hash password using SHA-256"""
@@ -218,8 +218,6 @@ def shorten_guest():
         ''', (long_url, short_code, custom_name, guest_token, expires_at))
         
         conn.commit()
-        short_url = f"{request.host_url}{short_code}"
-        
         # Store guest token in session so they can manage their URLs
         if 'guest_tokens' not in session:
             session['guest_tokens'] = []
@@ -227,7 +225,7 @@ def shorten_guest():
         session.modified = True
         
         return render_template('guest_result.html', 
-                             short_url=short_url, 
+                             short_code=short_code,
                              long_url=long_url,
                              guest_token=guest_token)
         
@@ -343,9 +341,7 @@ def shorten_url():
         ''', (long_url, short_code, custom_name, current_user.id, is_public))
         
         conn.commit()
-        short_url = f"{request.host_url}{short_code}"
-        
-        flash(f'URL shortened successfully! Your short URL: {short_url}', 'success')
+        flash(f'URL shortened successfully! Your short URL: {short_code}', 'success')
         return redirect(url_for('dashboard'))
         
     except sqlite3.IntegrityError:

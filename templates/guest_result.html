@@ -11,8 +11,8 @@
             <div class="url-group">
                 <label><strong>🔗 Your Short URL:</strong></label>
                 <div class="url-container">
-                    <code class="short-url">{{ short_url }}</code>
-                    <button onclick="copyToClipboard('{{ short_url }}')" class="btn-copy">
+                    <code class="short-url">{{ short_code }}</code>
+                    <button onclick="copyToClipboard('{{ request.host }}/{{ short_code }}')" class="btn-copy">
                         📋 Copy
                     </button>
                 </div>
